@@ -1,0 +1,34 @@
+version: '2'
+services:
+
+  # THe Application
+  app:
+    build:
+      context: ./
+      dockerfile: app.dockerfile
+    working_dir: /var/www
+    volumes:
+    - ./:/var/www
+    environment:
+    - "DB_PORT=3306"
+    - "DB_HOST=127.0.0.1"
+
+  # The Web Server
+  web:
+    build:
+      context: ./
+      dockerfile: web.dockerfile
+    working_dir: /var/www
+    volumes_from:
+    - app
+    ports:
+    - 8081:80
+
+  # The Database
+  sqlite3:
+    image: nouchka/sqlite3:latest
+    stdin_open: true
+    tty: true
+    volumes:
+    - ./db/:/root/db/
+
