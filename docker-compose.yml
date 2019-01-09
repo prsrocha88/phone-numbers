@@ -32,3 +32,11 @@ services:
     volumes:
     - ./db/:/root/db/
 
+  # Composer
+  composer:
+    image: composer:latest
+    working_dir: /var/www
+    volumes_from:
+      - app
+    command: 'true'
+
